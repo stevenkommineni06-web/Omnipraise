@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="theme-color" content="#4f46e5">
+    <title>OmniPraise - 1000 Multilingual Praises</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700;900&family=Playfair+Display:wght@700&family=JetBrains+Mono:wght@500&family=Dancing+Script:wght@700&family=Noto+Sans:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-primary: #f8fafc;
+            --bg-card: #ffffff;
+            --text-main: #111827;
+            --text-muted: #4b5563;
+            --border-color: #f1f5f9;
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            
+            /* Default Accent (Indigo) */
+            --accent: #4f46e5;
+            --accent-soft: rgba(79, 70, 229, 0.1);
+            --accent-border: rgba(79, 70, 229, 0.2);
+            
+            /* Font Variables */
+            --font-main: 'Inter', sans-serif;
+            --size-praise: 19px;
+            --size-ref: 16px;
+            --size-trans: 14px;
+        }
+
+        [data-theme='dark'] {
+            --bg-primary: #0f172a;
+            --bg-card: #1e293b;
+            --text-main: #f8fafc;
+            --text-muted: #cbd5e1;
+            --border-color: #334155;
+            --nav-bg: rgba(30, 41, 59, 0.8);
+        }
+
+        [data-theme='night'] {
+            --bg-primary: #000000;
+            --bg-card: #111111;
+            --text-main: #e2e8f0;
+            --text-muted: #94a3b8;
+            --border-color: #222222;
+            --nav-bg: rgba(0, 0, 0, 0.8);
+        }
+
+        [data-theme='gradient'] {
+            --bg-primary: #fdf2f8;
+            --bg-card: rgba(255, 255, 255, 0.9);
+            --text-main: #1e1b4b;
+            --text-muted: #3730a3;
+            --border-color: rgba(224, 231, 255, 0.5);
+            --nav-bg: rgba(255, 255, 255, 0.8);
+            background: linear-gradient(135deg, #e0e7ff 0%, #fae8ff 50%, #fdf2f8 100%);
+            background-attachment: fixed;
+        }
+
+        /* Accent Color Schemes */
+        [data-accent='indigo'] { --accent: #4f46e5; --accent-soft: rgba(79, 70, 229, 0.1); --accent-border: rgba(79, 70, 229, 0.2); }
+        [data-accent='rose'] { --accent: #e11d48; --accent-soft: rgba(225, 29, 72, 0.1); --accent-border: rgba(225, 29, 72, 0.2); }
+        [data-accent='emerald'] { --accent: #10b981; --accent-soft: rgba(16, 185, 129, 0.1); --accent-border: rgba(16, 185, 129, 0.2); }
+        [data-accent='amber'] { --accent: #f59e0b; --accent-soft: rgba(245, 158, 11, 0.1); --accent-border: rgba(245, 158, 11, 0.2); }
+        [data-accent='violet'] { --accent: #7c3aed; --accent-soft: rgba(124, 58, 237, 0.1); --accent-border: rgba(124, 58, 237, 0.2); }
+        [data-accent='sky'] { --accent: #0ea5e9; --accent-soft: rgba(14, 165, 233, 0.1); --accent-border: rgba(14, 165, 233, 0.2); }
+
+        /* Dynamic Styling Classes */
+        .dynamic-accent-bg { background-color: var(--accent); color: white; }
+        .dynamic-accent-text { color: var(--accent); }
+        .dynamic-accent-soft { background-color: var(--accent-soft); color: var(--accent); border: 1px solid var(--accent-border); }
+        .dynamic-accent-border { border-color: var(--accent); }
+
+        /* Font Size Definitions */
+        [data-size='small'] { --size-praise: 16px; --size-ref: 14px; --size-trans: 12px; }
+        [data-size='medium'] { --size-praise: 19px; --size-ref: 16px; --size-trans: 14px; }
+        [data-size='large'] { --size-praise: 24px; --size-ref: 20px; --size-trans: 18px; }
+        [data-size='xlarge'] { --size-praise: 30px; --size-ref: 24px; --size-trans: 20px; }
+
+        /* Font Family Definitions */
+        [data-font='sans'] { --font-main: 'Inter', sans-serif; }
+        [data-font='serif'] { --font-main: 'Playfair Display', serif; }
+        [data-font='mono'] { --font-main: 'JetBrains Mono', monospace; }
+        [data-font='script'] { --font-main: 'Dancing Script', cursive; }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--bg-primary);
+            color: var(--text-main);
+            -webkit-tap-highlight-color: transparent;
+            user-select: none;
+            overflow-x: hidden;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+
+        .theme-bg { background-color: var(--bg-primary); }
+        .theme-card { background-color: var(--bg-card); border-color: var(--border-color); }
+        .theme-text { color: var(--text-main); }
+        .theme-text-muted { color: var(--text-muted); }
+        .theme-border { border-color: var(--border-color); }
+        .theme-nav { background-color: var(--nav-bg); }
+
+        .praise-text-dynamic { 
+            font-family: var(--font-main); 
+            font-size: var(--size-praise); 
+        }
+        .ref-text-dynamic { font-size: var(--size-ref); }
+        .trans-text-dynamic { font-size: var(--size-trans); }
+
+        /* Mobile Safe Area Handling */
+        .safe-pb { padding-bottom: env(safe-area-inset-bottom); }
+        .safe-pt { padding-top: env(safe-area-inset-top); }
+
+        .no-scrollbar::-webkit-scrollbar { display: none; }
+        .no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+        .nav-item-active { color: var(--accent); }
+        .nav-item-active i { transform: translateY(-2px); transition: transform 0.2s ease; }
+    </style>
+<script type="importmap">
+{
+  "imports": {
+    "react/": "https://esm.sh/react@^19.2.4/",
+    "react": "https://esm.sh/react@^19.2.4",
+    "@google/genai": "https://esm.sh/@google/genai@^1.38.0",
+    "react-dom/": "https://esm.sh/react-dom@^19.2.4/"
+  }
+}
+</script>
+</head>
+<body>
+    <div id="root"></div>
+</body>
+</html>
